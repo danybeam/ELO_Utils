@@ -1,0 +1,11 @@
+language: python
+python:
+  - "3.6"
+install:
+  - python -m setup install
+script:
+  - python -m pytest -ra
+before_deploy: "echo 'we need a script to push to deploy branch here'"
+deploy:
+  on:
+    branch: release
