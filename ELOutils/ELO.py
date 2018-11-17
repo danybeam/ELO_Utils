@@ -7,37 +7,75 @@ def get_exp_score(rating_a, rating_b):
 def rating_adj(rating, exp_score, score, k=32):
     return rating + k * (score - exp_score)
 
+def match(player, challenger, result, floor = None):
+
+        exp_score_a = get_exp_score(player.rating, challenger.rating)
+
+        if result > 0:
+            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 1))
+            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 0))
+        elif result < 0:
+            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 0))
+            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 1))
+        else:
+            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 0.5))
+            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 0.5))
+
+        if floor:
+            if player.rating < floor:
+                player.rating = floor
+            if challenger.rating < floor:
+                challenger.rating = floor
+
 class Player(object):
     def __init__(self, name, rating):
         self.rating = rating
         self.name = name
+        self.verification = random.randint(0,10000)
 
-    def match(self, other, result, floor = None):
-
-        exp_score_a = get_exp_score(self.rating, other.rating)
-
-        if result > 0:
-            self.rating = math.floor(rating_adj(self.rating, exp_score_a, 1))
-            other.rating = math.floor(rating_adj(other.rating, 1 - exp_score_a, 0))
-        elif result < 0:
-            self.rating = math.floor(rating_adj(self.rating, exp_score_a, 0))
-            other.rating = math.floor(rating_adj(other.rating, 1 - exp_score_a, 1))
+    # used for locating players
+    def __eq__(self,other):
+        return other.name == self.name and other.rating == self.rating and other.verification == self.verification
+    
+    # used for comparisons/orderings
+    def __lt__(self,other):
+        if not self.rating == other.rating:
+            return self.rating < other.rating
+        elif not self.name == other.name:
+            return self.name < other.name
         else:
-            self.rating = math.floor(rating_adj(self.rating, exp_score_a, 0.5))
-            other.rating = math.floor(rating_adj(other.rating, 1 - exp_score_a, 0.5))
+            return self.verification < other.verification
 
-        if floor:
-            if self.rating < floor.rating:
-                self.rating = floor.rating
-            if other.rating < floor.rating:
-                other.rating = floor.rating
+    def __gt__(self,other):
+        if not self.rating == other.rating:
+            return self.rating > other.rating
+        elif not self.name == other.name:
+            return self.name > other.name
+        else:
+            return self.verification > other.verification
 
-    def equals(self,other):
-        return other.name == self.name
+    def __le__(self,other):
+        if self == other:
+            return True
+        elif not self.rating == other.rating:
+            return self.rating < other.rating
+        elif not self.name == other.name:
+            return self.name < other.name
+        else:
+            return self.verification < other.verification
+
+    def __ge__(self,other):
+        if self == other:
+            return True
+        elif not self.rating == other.rating:
+            return self.rating > other.rating
+        elif not self.name == other.name:
+            return self.name > other.name
+        else:
+            return self.verification > other.verification
 
     def __str__(self):
         return self.name+','+str(self.rating)
-
 
 def create_match(players,player_a_index = None,fairness = 0.5, margin = 0.01):
     player_b_index = 1
