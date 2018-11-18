@@ -126,7 +126,7 @@ setup(
     include_package_data=True,
     license=LICENSE,
     classifiers=[
-        'License :: OSI Approved :: {0} License'.format(LICENSE),
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
