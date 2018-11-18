@@ -3,7 +3,7 @@ import math
 
 class Player(object):
     def __init__(self, name, rating):
-        self.rating = rating
+        self.rating = int(rating)
         self.name = name
         self.verification = random.randint(0,10000)
 
@@ -107,5 +107,7 @@ def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max
         rival -= change_rate
     if rival == index:
         rival += change_rate
+    
+    rival = random.randint(index+1,rival)
     
     return players[rival]
