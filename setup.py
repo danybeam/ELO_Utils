@@ -53,7 +53,7 @@ class UploadCommand(Command):
     description = 'Build and publish the package.'
     user_options = [
         ('user=', 'u', "Specify the user"),
-        ('password', 'p', "Specify the user password")
+        ('password=', 'p', "Specify the user password")
     ]
 
     @staticmethod
