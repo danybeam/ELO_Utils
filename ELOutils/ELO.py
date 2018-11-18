@@ -99,6 +99,8 @@ def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max
     # search for a rival
     while lower_bound <= get_exp_score(player.rating, players[rival].rating) <= higher_bound:
         rival += change_rate
+        if not -1 < rival < len(players):
+            break
     
     # Fixing in case of small list or quirks of search
     if not -1 < rival < len(players) or not lower_bound < get_exp_score(player.rating, players[rival].rating) < higher_bound:
