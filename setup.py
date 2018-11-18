@@ -84,10 +84,7 @@ class UploadCommand(Command):
             os.system('twine upload dist/* -u {0} -p {1}'.format(self.user,self.password))
         else:
              os.system('python -m twine upload dist/*')
-        self.status('Pushing git tags…')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
-        
+
         sys.exit()
 
 class TestCommand(Command):
