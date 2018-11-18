@@ -6,10 +6,12 @@ install:
 script:
 - python -m pytest -ra
 deploy:
-  script: python setup.py upload
-  user: danybeam
-  password:
-    secure: p4S8IdeU1AEBrzRIyVxSX59kPfXgXbfQh3sNuzYibCMFbNTsrjSErZ9ZBtZbt5zfTn+IwpJ7tzQb5csi0FRpP6iEeKFWiMVsGg44Y8pSioCxvWe++c6QWbKtjJD2hQQJf6Q7M6k5ZSzVCWJfhu99eRqBcruZxB+09PWJQsf2RYJP3cY/mJUbvSNE/gI4olCSGik5aqzEucMwsjV+Z5499nCoM2hRY4LPFaZetP8LAzDEsaKXdms0L5iyMsPGjEyWyR1LwH9H2ph55mYWb28LTeMUQiwgmG+yrsc36c+GBuG9Povg1LXHoB8PDyTHd1DKWNEDLZ3jussLKJoWFaVtFYZzasZa3CgDKOrm+C+R/DyOTQuvKMffS8MR4bBlgYLMP5RY0/Ph91S9mmdtVcc0iKpx2KBC1aHLf43PHjpBtlYYvEzXEBCGwSbmJnIgVHohxd50h7IHD1oK5yzgkUf+rwicAIhBWBY8CsWfjD+pdzybko3AJJSr4kO4paSYiE741/SR2WR9zg7GykdvwZqEDs4fnkkQc3YMEIMnHNhmPA0wzduqOGow3/KkgE9PPRlKew+B9+l6ju0kJEJ3icDvZxTSxXdow8JbwQ/ATokdtcm/jsegMhOM7XR59aayub//QKmscXUY4kLMOr9lhNunxFqK4gOKTL/a1TEsWTD7h40=
+  provider: script
+  script: python setup.py upload -u $PYPI_USER -p $PYPIPASSWORD
   on:
     tags: true
     condition: "$TRAVIS_TAG =~ deploy"
+env:
+  global:
+    - PYPI_USER=danybeam
+  secure: X+0M19Rml+M0VFwyDBhKG8eUo6bWO2ZabNmi0O+lUhZj7vs4348Tn+M8aoHeKtNpEegW9NiA4EsDavU+smvOJMdo0FbC99P1iNATLxPR7mTWncSZkFZE/DYEHxidGbTVOsRMl4KhmWur0s95MI947HbSo3p69Ct34AUjJIiO8Kqh7FdXwbl1xcPb/3CDuul+cwY6Hkj7ugQ9B3NOCPuskSk1Li09N4o7X9Gd6aK4JcvVjm5xk0F1fxsTGDJUyC4jS+UURImbrHB1ttNO7AREfnlbN4CyWt0Oixki+JS57ry/HRp8U1E9av28Q3E3havukfpOrGXTrOcSrIOrVwije8bmgL5OQ6Qs7LuHAPF8vcJMfE667nrbUDoKF+oR7Zbk+GXq/P3pMmofYIcbme1p1Q9jQvKPOSfmSYn0sAPFThHAbJ0q/c0SEfA7iS7HjlB7XiRxwl3RRjEMAxHjldoLT780LALN5ieqhkqP8CHfkwW4VM7N0CGXYFqV/d1Wk0//G358UYnV03mEzlz9JktopohKvAWxwX8dmWcqO00MDKLZuO9b8wuX65gKHHuyMsewrVPL0pDG8QEPoQw8qssEPauT1nuXQtj88+4PByZTCQ9DsU+BcgAiBVfPPalyd+y9OMK7DdwFsiSYR54Eao6okjGnnCaIpTWKV7mYFL0rS8k=

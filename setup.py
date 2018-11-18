@@ -51,7 +51,10 @@ class UploadCommand(Command):
     """Support setup.py upload."""
 
     description = 'Build and publish the package.'
-    user_options = []
+    user_options = [
+        ('user=', 'u', "Specify the user"),
+        ('password', 'p', "Specify the user password")
+    ]
 
     @staticmethod
     def status(s):
@@ -60,7 +63,8 @@ class UploadCommand(Command):
         print('#############################################')
 
     def initialize_options(self):
-        pass
+        self.user = None
+        self.password = None
 
     def finalize_options(self):
         pass
@@ -76,8 +80,10 @@ class UploadCommand(Command):
         os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
-
+        if self.user and self.password:
+            os.system('twine upload dist/* -u {0} -p {1}'.format(self.user,self.password))
+        else:
+             os.system('twine upload dist/*')
         self.status('Pushing git tags…')
         os.system('git tag v{0}'.format(about['__version__']))
         os.system('git push --tags')
