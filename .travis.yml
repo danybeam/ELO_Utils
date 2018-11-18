@@ -5,6 +5,7 @@ install:
 - python -m setup install
 script:
 - python -m pytest -ra
+before_deploy: pip install -u twine
 deploy:
   provider: script
   script: python setup.py upload -u $PYPI_USER -p $PYPIPASSWORD
