@@ -5,11 +5,11 @@ install:
   - python -m setup install
 script:
   - python -m pytest -ra
-before_deploy: python setup upload
+before_deploy: python setup.py upload
 deploy:
   provider: pypi
   user: "danybeam"
   password:
     secure: "i73DOZRVRHxpkRcpPl9xwvFlQxWviQue2J7ELzFHg75LaNpT4pCk/kKJMY5TkK23RpUY3FPm623djeu1GdWYuBhueaThY8fvK59T0poGRT2+M2zVuNlhyUyoPDxqfSYblCJrnEV/T2al87ft6UUIBnvlr+aEu3qUoOLWNBA/WIU2Lvam26OPBOAuJNSVGA+zAItNlrCf0HKwGEo5iyTzLISydyt50StKVeOlosbQxyZhFP2gE7UjapeGT8JfSWtV1eFzun5UAXsq/f+mWCZX0zlG8kqiP+NX9PPlMVgZ39yRUewsOUH1kVFaQmYie0A0jGgXr2FtXVocCrv09PwV0hSPALmArwUdMAIKVdFYUpUUedWFcJb2zubxB+Mdfrz8MDoICJfdvZFjFWqq20cIFgwTTB+ovgN+gdNH1YZIdOlVN8n4PAGqqkr9ZsUljSZY2NXpofDKtuU2kUk/iH3vLS0C+BDtfMINF6NA/o9mNbMSJUXNoWGTu6YOZSR3lj80Liob3+1ZLDnON3238+Os4wRlkqfFqA1NTJvBK3LG7hdAvn3vFoIPgvhFMTZ58zEn1+uE+OPzWjOPHfdqQBnZkdHld2dp9nqu705VtV/0XCNgHexzVn7Wu6iRf4+otJ5mc1GCnZ2+yF+KUSDFHxjJxGxtiA0Lq7MKXDMV6ySIeTU="
   on:
-    tags: true
+    condition: tag = deploy
