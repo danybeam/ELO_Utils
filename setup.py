@@ -15,12 +15,12 @@ from setuptools import find_packages, setup, Command
 # Package meta-data.
 NAME = 'ELO_utils'
 DESCRIPTION = 'ELO calculations for python'
-URL = 'https://github.com/me/myproject'
+URL = 'https://github.com/danybeam/ELO_Utils'
 EMAIL = 'danybeam@gmail.com'
 AUTHOR = 'danybeam'
 REQUIRES_PYTHON = '>=3.7.0'
 VERSION = None
-LICENSE = None
+LICENSE = 'MIT'
 
 # What packages are required for this module to be executed?
 REQUIRED = []
