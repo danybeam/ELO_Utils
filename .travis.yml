@@ -8,11 +8,9 @@ script:
 before_deploy: pip install twine
 deploy:
   provider: script
-  script: python setup.py upload -u $PYPI_USER -p $PYPIPASSWORD
+  script: python setup.py upload -u $PYPI_USER -p $PYPI_PASSWORD
   on:
     tags: true
-    condition: "$TRAVIS_TAG =~ deploy"
 env:
   global:
     - PYPI_USER=danybeam
-  secure: X+0M19Rml+M0VFwyDBhKG8eUo6bWO2ZabNmi0O+lUhZj7vs4348Tn+M8aoHeKtNpEegW9NiA4EsDavU+smvOJMdo0FbC99P1iNATLxPR7mTWncSZkFZE/DYEHxidGbTVOsRMl4KhmWur0s95MI947HbSo3p69Ct34AUjJIiO8Kqh7FdXwbl1xcPb/3CDuul+cwY6Hkj7ugQ9B3NOCPuskSk1Li09N4o7X9Gd6aK4JcvVjm5xk0F1fxsTGDJUyC4jS+UURImbrHB1ttNO7AREfnlbN4CyWt0Oixki+JS57ry/HRp8U1E9av28Q3E3havukfpOrGXTrOcSrIOrVwije8bmgL5OQ6Qs7LuHAPF8vcJMfE667nrbUDoKF+oR7Zbk+GXq/P3pMmofYIcbme1p1Q9jQvKPOSfmSYn0sAPFThHAbJ0q/c0SEfA7iS7HjlB7XiRxwl3RRjEMAxHjldoLT780LALN5ieqhkqP8CHfkwW4VM7N0CGXYFqV/d1Wk0//G358UYnV03mEzlz9JktopohKvAWxwX8dmWcqO00MDKLZuO9b8wuX65gKHHuyMsewrVPL0pDG8QEPoQw8qssEPauT1nuXQtj88+4PByZTCQ9DsU+BcgAiBVfPPalyd+y9OMK7DdwFsiSYR54Eao6okjGnnCaIpTWKV7mYFL0rS8k=

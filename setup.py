@@ -84,10 +84,7 @@ class UploadCommand(Command):
             os.system('twine upload dist/* -u {0} -p {1}'.format(self.user,self.password))
         else:
              os.system('python -m twine upload dist/*')
-        self.status('Pushing git tags…')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
-        
+
         sys.exit()
 
 class TestCommand(Command):
@@ -114,6 +111,28 @@ class TestCommand(Command):
         input('press any key to finish')
         sys.exit()
 
+class TravisCommand(Command):
+    description = 'Triggers a travis deployment'
+    user_options = []
+
+    @staticmethod
+    def status(s):
+        """Prints things in bold."""
+        print('{0}:: {1}'.format(datetime.datetime.now(), s))
+        print('#############################################')
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        self.status('Pushing git tags…')
+        os.system('git tag v{0}'.format(about['__version__']))
+        os.system('git push --tags')
+        
+        sys.exit()
 
 # Where the magic happens:
 setup(
@@ -141,6 +160,7 @@ setup(
     
     cmdclass={
         'upload': UploadCommand,
-        'test': TestCommand
+        'test': TestCommand,
+        'travis': TravisCommand
     },
 )
