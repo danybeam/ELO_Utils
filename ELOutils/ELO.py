@@ -64,7 +64,7 @@ def match_result(player, challenger, result, floor = None, max_diference=1.0):
         exp_score_a = get_exp_score(player.rating, challenger.rating, max_diference)
 
         player.rating = math.floor(rating_adj(player.rating, exp_score_a, result))
-        challenger.rating = math.floor(rating_adj(challenger.rating, max_diference - exp_score_a, -result))
+        challenger.rating = math.floor(rating_adj(challenger.rating, max_diference - exp_score_a, max_diference-result))
 
         if floor:
             if player.rating < floor:
