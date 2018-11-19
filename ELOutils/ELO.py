@@ -60,8 +60,9 @@ def get_exp_score(rating_a, rating_b,max_diference=1.0):
 def rating_adj(rating, exp_score, score, k=32):
     return rating + k * (score - exp_score)
 
-def match_result(player, challenger, result, floor = None):
-        exp_score_a = get_exp_score(player.rating, challenger.rating)
+# TODO add adjusting based on max difference
+def match_result(player, challenger, result, floor = None, max_diference=1.0):
+        exp_score_a = get_exp_score(player.rating, challenger.rating, max_diference)
 
         if result > 0:
             player.rating = math.floor(rating_adj(player.rating, exp_score_a, 1))
