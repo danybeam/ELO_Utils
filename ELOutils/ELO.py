@@ -60,18 +60,11 @@ def get_exp_score(rating_a, rating_b,max_diference=1.0):
 def rating_adj(rating, exp_score, score, k=32):
     return rating + k * (score - exp_score)
 
-def match_result(player, challenger, result, floor = None):
-        exp_score_a = get_exp_score(player.rating, challenger.rating)
+def match_result(player, challenger, result, floor = None, max_diference=1.0):
+        exp_score_a = get_exp_score(player.rating, challenger.rating, max_diference)
 
-        if result > 0:
-            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 1))
-            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 0))
-        elif result < 0:
-            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 0))
-            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 1))
-        else:
-            player.rating = math.floor(rating_adj(player.rating, exp_score_a, 0.5))
-            challenger.rating = math.floor(rating_adj(challenger.rating, 1 - exp_score_a, 0.5))
+        player.rating = math.floor(rating_adj(player.rating, exp_score_a, result))
+        challenger.rating = math.floor(rating_adj(challenger.rating, max_diference - exp_score_a, -result))
 
         if floor:
             if player.rating < floor:
@@ -79,7 +72,7 @@ def match_result(player, challenger, result, floor = None):
             if challenger.rating < floor:
                 challenger.rating = floor
 
-def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max_diference= 1):
+def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max_diference= 1.0):
     if not players or not player:
         raise ValueError("There must be a list of players and a player to have as reference")
 
