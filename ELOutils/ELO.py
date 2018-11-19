@@ -72,7 +72,7 @@ def match_result(player, challenger, result, floor = None, max_diference=1.0):
             if challenger.rating < floor:
                 challenger.rating = floor
 
-def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max_diference= 1.0):
+def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01):
     if not players or not player:
         raise ValueError("There must be a list of players and a player to have as reference")
 
@@ -86,8 +86,8 @@ def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01, max
     change_rate = -1 if weaker else 1
 
     # limits of fairness
-    lower_bound = (fairness-margin) * max_diference
-    higher_bound = (fairness+margin) * max_diference
+    lower_bound = (fairness-margin)
+    higher_bound = (fairness+margin)
 
     # search for a rival
     while lower_bound <= get_exp_score(player.rating, players[rival].rating) <= higher_bound:
