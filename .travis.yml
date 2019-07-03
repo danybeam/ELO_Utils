@@ -4,6 +4,7 @@ python:
 install:
 - python -m setup install
 script:
+- pip install pytest
 - python -m pytest -ra
 before_deploy: pip install twine
 deploy:
