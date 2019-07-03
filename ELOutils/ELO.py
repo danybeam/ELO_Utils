@@ -1,11 +1,17 @@
 import random
 import math
 
+def approxRollingAverage(avg, new_sample):
+    avg -= avg / 100
+    avg += new_sample / 100
+    return avg
+
 class Player(object):
     def __init__(self, name, rating):
         self.rating = int(rating)
         self.name = name
         self.verification = random.randint(0,10000)
+        self.win_ratio = 1
 
     # used for locating players
     def __eq__(self,other):
@@ -54,17 +60,26 @@ class Player(object):
     def __repr__(self):
         return str(self)
 
-def get_exp_score(rating_a, rating_b,max_diference=1.0):
-    return max_diference * (1.0 /(1 + 10**((rating_b - rating_a)/400.0)))
+def get_exp_score(rating_a, rating_b):
+    return 1.0 /(1 + 10**((rating_b - rating_a)/400.0))
 
 def rating_adj(rating, exp_score, score, k=32):
     return rating + k * (score - exp_score)
 
-def match_result(player, challenger, result, floor = None, max_diference=1.0):
-        exp_score_a = get_exp_score(player.rating, challenger.rating, max_diference)
+def match_result(player, challenger, result, floor = None):
+        exp_score_a = get_exp_score(player.rating, challenger.rating)
+
+        old_player = player.rating
+        old_challenger = challenger.rating
 
         player.rating = math.floor(rating_adj(player.rating, exp_score_a, result))
-        challenger.rating = math.floor(rating_adj(challenger.rating, max_diference - exp_score_a, max_diference-result))
+        challenger.rating = math.floor(rating_adj(challenger.rating, exp_score_a, result))
+
+        player_ratio = 0 if player.rating-old_player <= 0 else 1
+        challenger_ratio = 0 if challenger.rating-old_challenger <= 0 else 1
+
+        player.win_ratio = approxRollingAverage(player.win_ratio, player_ratio)
+        challenger.win_ratio = approxRollingAverage(challenger.win_ratio, challenger_ratio)
 
         if floor:
             if player.rating < floor:
@@ -72,7 +87,7 @@ def match_result(player, challenger, result, floor = None, max_diference=1.0):
             if challenger.rating < floor:
                 challenger.rating = floor
 
-def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01):
+def create_match(players, player, fairness= 0.5, margin= 0.01):
     if not players or not player:
         raise ValueError("There must be a list of players and a player to have as reference")
 
@@ -81,7 +96,7 @@ def create_match(players, player, win_ratio= 1, fairness= 0.5, margin= 0.01):
 
     # Helper variables
     index = players.index(player)
-    weaker = True if win_ratio < 0.5 else False
+    weaker = True if player.win_ratio < 0.5 else False
     rival = index-1 if weaker else index+1
     change_rate = -1 if weaker else 1
 
